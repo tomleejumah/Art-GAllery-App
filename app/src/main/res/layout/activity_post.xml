@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostActivity"
+    android:orientation="vertical">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/windowBackground">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgClose"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_close_foreground" />
+
+                    <Spinner
+                        android:layout_centerInParent="true"
+                        android:id="@+id/spinner1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"/>
+<!--                -->
+
+                    <Button
+                        android:layout_alignParentEnd="true"
+                        android:backgroundTint="@color/black"
+                        android:id="@+id/btn_Login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:text="POST"
+                        android:textColor="#FF6D00"
+                        android:textSize="18sp"/>
+
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileActivityPosts"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:src="@mipmap/profile_foreground"
+            app:civ_border_color="#FF6D00"
+            app:civ_border_width="2dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:paddingHorizontal="10dp"
+                android:id="@+id/txtDescription"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="add description"
+                android:maxLines="5"
+                android:paddingLeft="8dp"
+                android:background="@drawable/edittext_background"
+                android:minHeight="48dp"
+                android:textColorHint="#FF6D00" />
+            <EditText
+                android:paddingEnd="10dp"
+                android:fontFamily="@font/signika_bold"
+                android:textColor="@color/black"
+                android:id="@+id/txtSetPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="price(Ksh)"
+                android:text=""
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:paddingStart="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingRight="8dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:paddingHorizontal="10dp"
+                android:src="@mipmap/home_foreground"
+                android:id="@+id/imgAdded"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--        android:src="@drawable/ic_addi_image_foreground"-->
+    </LinearLayout>
+</LinearLayout>

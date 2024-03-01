@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/profilePIc"
+        android:src="@mipmap/profile_foreground"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profilePIc"
+        android:layout_marginStart="5dp"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtFirstNameItem"
+            android:text="User Name"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtLastNameItem"
+            android:text="Full Name"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnFollow"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="Follow"
+        android:textColor="@color/myColor"
+        android:backgroundTint="#9E8585"/>
+
+</RelativeLayout>

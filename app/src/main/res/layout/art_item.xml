@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgSave"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_save_foreground" />
+
+                <ImageView
+                    android:id="@+id/imgLike"
+                    android:src="@drawable/ic_like_foreground"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"/>
+                <TextView
+                    android:id="@+id/txtLikes"
+                    android:layout_toLeftOf="@+id/imgLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:textColor="@color/myColor"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:src="@mipmap/home_foreground"
+                android:id="@+id/imgPost"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                tools:ignore="MissingConstraints" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileItemImg"
+                        android:layout_width="48dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_height="48dp"
+                        android:src="@mipmap/profile_foreground"
+                        app:civ_border_color="#FF6D00"
+                        app:civ_border_width="2dp" />
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:textColor="#FF6D00"
+                            android:id="@+id/userName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kipkebut"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:paddingHorizontal="10dp"
+                android:id="@+id/txtDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="wefgwkuwhwekhlwekghw;;k fwjgsj"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <ImageView
+                android:layout_width="35dp"
+                android:gravity="end"
+                android:id="@+id/ImgOrder"
+                android:layout_height="35dp"
+                android:src="@mipmap/orders_foreground"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

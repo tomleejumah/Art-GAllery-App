@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_Container"
+        app:labelVisibilityMode="unlabeled"
+        android:layout_above="@+id/parent"
+        android:elevation="0dp"
+        android:background="@android:color/transparent" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/botoom_aPP"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="bottom">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                app:labelVisibilityMode="unlabeled"
+                app:hideOnScroll="true"
+                app:itemIconSize="50dp"
+                android:backgroundTint="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                app:menu="@menu/bottom_nav_menu"
+                android:id="@+id/bottom_navigation"
+                android:background="@android:color/transparent"
+                app:elevation="0dp"/>
+        </com.google.android.material.bottomappbar.BottomAppBar>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shapeAppearanceOverlay="@style/fab_round"
+            android:src="@mipmap/fab_btn_foreground"
+            app:maxImageSize="40dp"
+            app:fabAlignmentMode="center"
+            app:fabCradleMargin="10dp"
+            android:id="@+id/myFab"
+            app:fabCradleVerticalOffset="10dp"
+            app:fabCradleRoundedCornerRadius="60dp"
+            android:backgroundTint="#FF6D00"
+            android:layout_gravity="center"
+            android:contentDescription="@string/todo" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>

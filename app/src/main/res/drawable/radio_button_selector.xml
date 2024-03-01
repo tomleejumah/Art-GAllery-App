@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- radio_button_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Selected state -->
+    <item android:state_checked="true" android:drawable="@drawable/selected_circle_background" />
+    <!-- Default state -->
+    <item android:drawable="@drawable/default_circle_background" />
+</selector>

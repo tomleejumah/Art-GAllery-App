@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FF6D00"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreen">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="35sp"
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ART gallery "
+        android:textColor="@color/black"
+        android:fontFamily="@font/bungee"/>
+
+    <ImageView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@mipmap/mystartscreen_foreground"/>
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+    <TextView
+        android:textColor="#304FFE"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/title"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discover Art"
+        android:fontFamily="@font/signika_bold"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_marginBottom="15dp"
+        android:id="@+id/description"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Explore the largest online \n art gallery and community"
+        android:textSize="22dp"
+        android:fontFamily="@font/calibri"
+        android:layout_below="@id/title" />
+<LinearLayout
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        android:backgroundTint="@color/black"
+        android:id="@+id/btn_Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login" />
+    <Space
+        android:layout_width="25dp"
+        android:layout_height="10dp" />
+    <Button
+        android:backgroundTint="@color/black"
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register" />
+</LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

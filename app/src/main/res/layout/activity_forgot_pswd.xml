@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ForgotPswd">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Email"
+        android:id="@+id/parent"
+        style="@style/Widget.Material3.TextInputEditText.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/txtMail"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/buttonshapewhitebg"
+        android:fontFamily="@font/calibri"
+        android:text="Reset Password"
+        android:layout_below="@+id/parent"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:id="@+id/ResetPwsd"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</RelativeLayout>

@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Art Gallery</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">TODO</string>
+
+    <string-array name="kenyan_regions">
+        <item>Nairobi</item>
+        <item>Central</item>
+        <item>Coast</item>
+        <item>Eastern</item>
+        <item>Western</item>
+        <item>Nyanza</item>
+        <item>Great Rift</item>
+        <item>North</item>
+    </string-array>
+
+    <string-array name="nairobi_towns">
+        <item>Nairobi CBD</item>
+        <item>Kasarani</item>
+        <item>Westlands</item>
+        <item>Utawala</item>
+        <item>Eastlands</item>
+        <!-- Add other towns in Nairobi here -->
+    </string-array>
+    <string-array name="central_towns">
+        <item>Thika</item>
+        <item>Karatina</item>
+        <item>Nyeri</item>
+        <item>Meru</item>
+        <item>Nyandarua</item>
+        <!-- Add other towns in Central here -->
+    </string-array>
+    <string-array name="coast_towns">
+        <item>Mombasa</item>
+        <item>Malindi</item>
+        <item>Diani</item>
+        <item>Kilifi</item>
+        <item>Taveta</item>
+        <!-- Add other towns in Coast here -->
+    </string-array>
+    <string-array name="Eastern_towns">
+        <item>Garissa</item>
+        <item>Mandera</item>
+    </string-array>
+    <string-array name="Western_towns">
+        <item>Kakamega</item>
+        <item>Bungoma</item>
+        <item>Busia</item>
+        <item>Vihiga</item>
+    </string-array>
+    <string-array name="Nyanza_towns">
+        <item>Kisumu</item>
+        <item>Migori</item>
+        <item>Homa-Bay</item>
+        <item>Siaya</item>
+    </string-array>
+    <string-array name="Rift_towns">
+        <item>Eldoret</item>
+        <item>Nakuru</item>
+        <item>Bomet</item>
+        <item>Kericho</item>
+        <item>Baringo</item>
+    </string-array>
+    <string-array name="North_towns">
+        <item>Turkana</item>
+        <item>Kakuma</item>
+    </string-array>
+
+</resources>

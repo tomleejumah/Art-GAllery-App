@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_bg"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="60dp"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="10dp"
+        android:background="@drawable/rounded_corners"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutCamera"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_marginLeft="9dp"
+            android:layout_height="42dp"
+            android:src="@mipmap/camera_foreground"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="Use Camera"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+
+        android:id="@+id/layoutGallery"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="32dp"
+            android:src="@mipmap/gallery"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Gallery"
+            android:layout_marginLeft="18dp"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="010dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/signika_bold"
+                    android:gravity="center_horizontal"
+                    android:text="Kelvin Maina"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:textStyle="bold"
+                    android:textColor="#FF6D00"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="0dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileFragmentImg"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:src="@mipmap/profile_foreground"
+                app:civ_border_color="#FF6D00"
+                app:civ_border_width="2dp"
+                app:strokeWidth="3dp" />
+            <TextView
+                android:id="@+id/txtUserName1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\@User_Name"
+                android:textSize="28dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEmail1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="developer@appsnipp.com"
+                android:textSize="14sp"
+                android:paddingBottom="10dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="10dp"
+            android:id="@+id/time_layout"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <androidx.cardview.widget.CardView
+                app:cardElevation="5dp"
+                app:cardCornerRadius="8dp"
+                app:cardUseCompatPadding="true"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="18.9K"
+                        android:id="@+id/qw"
+                        android:textColor="#FF6D00"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_below="@+id/qw"
+                        android:id="@+id/following"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="14sp"
+                        android:text="Following" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <Space
+                android:layout_width="22dp"
+                android:layout_height="1dp"/>
+            <androidx.cardview.widget.CardView
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true"
+                android:layout_width="120dp"
+                app:cardCornerRadius="8dp"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="98.9K"
+                        android:id="@+id/qwq"
+                        android:textColor="#FF6D00"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_below="@+id/qwq"
+                        android:id="@+id/following1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="14sp"
+                        android:text="Following" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+        <View
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#353232"/>
+        <FrameLayout
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/back_tabs">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/select"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:background="@drawable/back_select"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/item1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="LIKED"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/item2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="SAVED"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RCviewPictures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RCsavedPictures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</ScrollView>

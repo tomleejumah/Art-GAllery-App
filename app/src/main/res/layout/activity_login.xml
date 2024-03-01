@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".Login">
+    <TextView
+        android:textColor="@color/black"
+        android:paddingStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello,Welcome Back"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/bungee" />
+    <TextView
+        android:textColor="@color/black"
+        android:paddingStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In to Continue"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Email"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/edtMail"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            app:passwordToggleEnabled="true"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtPassword"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Forgot password ?"
+            android:layout_gravity="right"
+            android:textColor="#05269E"
+            android:id="@+id/btnFogorPwsd"
+            android:elevation="0dp"
+            android:background="#00000000"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:layout_gravity="center"
+            android:textColor="#FF6D00"
+            android:id="@+id/btnLogin"
+            android:backgroundTint="@color/black"
+            />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="New? Register"
+            android:layout_gravity="right"
+            android:textColor="#05269E"
+            android:id="@+id/tvRegister"
+            android:elevation="0dp"
+            android:background="#00000000"/>
+
+    </LinearLayout>
+
+</LinearLayout>
