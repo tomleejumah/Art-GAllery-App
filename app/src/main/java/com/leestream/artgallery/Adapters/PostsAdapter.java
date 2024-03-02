@@ -126,6 +126,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                         child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
 
                 removeCart(posts.getPostID());
+                removeFromCart(posts.getPostID(), firebaseUser.getUid());
 
                 holder.ImgOrder.setTag("NoCart");
 
@@ -144,7 +145,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             if (holder.likeBtn.getTag().equals("Like")){
                 FirebaseDatabase.getInstance().getReference().child("Likes").
                         child(posts.getPostID()).child(firebaseUser.getUid()).setValue(true);
-                addNotification(posts.getPostID(),posts.getPublisherID());
+                addNotification(posts.getPostID(),firebaseUser.getUid(),"Liked your Post");
             }else {
                 FirebaseDatabase.getInstance().getReference().child("Likes").
                         child(posts.getPostID()).child(firebaseUser.getUid()).removeValue();
@@ -154,6 +155,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             if (holder.savesBtn.getTag().equals("Save")){
                 FirebaseDatabase.getInstance().getReference().child("Saves").
                         child(firebaseUser.getUid()).child(posts.getPostID()).setValue(true);
+                addNotification(posts.getPostID(),firebaseUser.getUid(),"Saved your Post");
 
                 Toast.makeText(mContext, "Post is Saved", Toast.LENGTH_SHORT).show();
             }else {
@@ -203,6 +205,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         FirebaseDatabase.getInstance().getReference().child("CartItems").
                 child(firebaseUser.getUid()).push().setValue(map);
     }
+    private void removeFromCart(String postID,String PublisherID){
+        FirebaseDatabase.getInstance().getReference().child("CartItems").
+                child(PublisherID).child(postID).removeValue();
+    }
     private void removeCart(String postId){
         FirebaseDatabase.getInstance().getReference().child("CartItems").child(firebaseUser.getUid()).
                 child(postId).removeValue().addOnCompleteListener(task -> {
@@ -227,12 +233,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         mContext.startActivity(intent);
     }
 
-    private void addNotification(String postID, String publisher) {
+    private void addNotification(String postID, String publisher,String text) {
         HashMap<String,Object> map=new HashMap<>();
         map.put("userID",publisher);
-        map.put("text"," Liked your Post ");
+        map.put("text",text);
         map.put("postID",postID);
-        map.put("isPost",true);
 
         FirebaseDatabase.getInstance().getReference().child("Notification").
                 child(firebaseUser.getUid()).push().setValue(map);

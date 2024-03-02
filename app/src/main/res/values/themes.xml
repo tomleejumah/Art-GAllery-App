@@ -4,6 +4,7 @@
         <item name="android:forceDarkAllowed">false</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">#00FFFFFF</item>
+        <item name="colorPrimary">@color/myColor</item>
     </style>
 
     <style name="Theme.ArtGallery" parent="Base.Theme.ArtGallery" />

@@ -1,17 +1,17 @@
 package com.leestream.artgallery.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
 import android.util.Log;
@@ -20,11 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,31 +34,36 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.leestream.artgallery.Adapters.PostsAdapter;
 import com.leestream.artgallery.Adapters.UserAdapter;
+import com.leestream.artgallery.MainActivity;
 import com.leestream.artgallery.Models.Posts;
 import com.leestream.artgallery.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
-public class HomeFragment extends Fragment implements UserAdapter.FirstNameListener,View.OnClickListener {
+public class HomeFragment extends Fragment implements UserAdapter.UserNameListener, View.OnClickListener {
     private RecyclerView RcPosts;
     private PostsAdapter postAdapter;
     private List<Posts> posts;
     private List<String> followingList;
-    private DatabaseReference mRootRef;
-    private FirebaseAuth mAuth;
     private ImageSlider imageSlider;
     private ArrayList<SlideModel> slideModels = new ArrayList<>();
     private String name;
     private List<String> firebaseImageUrls = new ArrayList<>();
     private LottieDialogFragment lottieDialogFragment;
-    private TextView  sculp,arch,lit,film,paint,music,all,select;
+    private TextView sculp, arch, lit, film, paint, music, all, select;
     private int defaultTextColor;
     private String category;
     private UserAdapter userAdapter;
+    private MainActivity mainActivity;
     private static final String TAG = "HomeFragment";
-
+    private  TextView txtUserN;
+    private LottieAnimationView loadinglottie;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,8 +72,11 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
 
 //        mAuth=FirebaseAuth.getInstance();
         lottieDialogFragment = new LottieDialogFragment(requireContext());
-        lottieDialogFragment.show();
-        TextView txtUserN = view.findViewById(R.id.txtUserN);
+//        lottieDialogFragment.show();
+         txtUserN = view.findViewById(R.id.txtUserN);
+        loadinglottie = view.findViewById(R.id.loadinglottie);
+
+        loadinglottie.setVisibility(View.VISIBLE);
 
         sculp = view.findViewById(R.id.sculp);
         arch = view.findViewById(R.id.arch);
@@ -87,47 +95,29 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
         music.setOnClickListener(this);
         all.setOnClickListener(this);
 
+
+
+//        getImageUrl();
+
         defaultTextColor = ContextCompat.getColor(requireContext(), android.R.color.black);
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                lottieDialogFragment.dismiss();
-                RcPosts.setAdapter(postAdapter);
-                imageSlider.setImageList(slideModels, ScaleTypes.FIT);
-            }
-        }, 4000);
 
         imageSlider = view.findViewById(R.id.image_slider);
 
-//        ArrayList<SlideModel> slideModels = new ArrayList<>();
+        ArrayList<SlideModel> slideModels = new ArrayList<>();
+
 
 //        List<String> firebaseImageUrls = new ArrayList<>();
 
-//        slideModels.clear();
-//
-//        if (!firebaseImageUrls.isEmpty()) {
-//        int imageCount = 0;
-//        for (String imageUrl : firebaseImageUrls) {
-//            slideModels.add(new SlideModel(imageUrl, ScaleTypes.FIT));
-//            imageCount++;
-//            if (imageCount >= 5) {
-//                break;
-//            }
-//        }
-//    }else {
         slideModels.add(new SlideModel(R.drawable.music_art, "Largest Online Art store", ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.africa_sketch, ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.removebg, "Enjoy Up-to 60% Offers", ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.handdrawn, ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.music_art, "All types of arts available", ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.portrait_man, "Capture your Arts and share", ScaleTypes.FIT));
-//        }
 
-
+        imageSlider.setImageList(slideModels, ScaleTypes.FIT);
         imageSlider.setOnClickListener(v -> {
-
+            imageSlider.stopSliding();
         });
 
         imageSlider.setSlideAnimation(AnimationTypes.ZOOM_OUT);
@@ -135,24 +125,13 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
 
         RcPosts = view.findViewById(R.id.rlPosts);
 
-        //TODO nested l
-
-        new Handler().postDelayed(() -> {
-
-            if (name != null) {
-                txtUserN.setText("Hello " + name + "!");
-            }
-        }, 10000);
-
         RcPosts.hasFixedSize();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
         RcPosts.setLayoutManager(linearLayoutManager);
         posts = new ArrayList<>();
-
-         userAdapter = new UserAdapter(this);
-
+        userAdapter = new UserAdapter(this);
         postAdapter = new PostsAdapter(requireContext(), posts);
         RcPosts.setAdapter(postAdapter);
 
@@ -220,6 +199,8 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
 //                            }
                         }
                         postAdapter.notifyDataSetChanged();
+                        loadinglottie.setVisibility(View.GONE);
+                        RcPosts.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -230,39 +211,42 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
     }
 
     @Override
-    public void onFirstNameReceived(String firstName) {
+    public void onUserNameReceived(String firstName) {
         name = firstName;
+        if (txtUserN != null) {
+            txtUserN.setText("Hello " + name + "!");
+        }
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sculp) {
             updateTextViewColors(sculp);
-            int size = arch.getWidth()* 6;
+            int size = arch.getWidth() * 6;
             select.animate().x(size).setDuration(100);
             category = "Sculpture";
             filterData(category);
         } else if (v.getId() == R.id.arch) {
             updateTextViewColors(arch);
-            int size = arch.getWidth()* 5;
+            int size = arch.getWidth() * 5;
             select.animate().x(size).setDuration(100);
             category = "Architecture";
             filterData(category);
         } else if (v.getId() == R.id.lit) {
             updateTextViewColors(lit);
-            int size = arch.getWidth()* 4;
+            int size = arch.getWidth() * 4;
             select.animate().x(size).setDuration(100);
             category = "Literature";
             filterData(category);
         } else if (v.getId() == R.id.film) {
             updateTextViewColors(film);
-            int size = arch.getWidth()* 3;
+            int size = arch.getWidth() * 3;
             select.animate().x(size).setDuration(100);
             category = "Film";
             filterData(category);
         } else if (v.getId() == R.id.paint) {
             updateTextViewColors(paint);
-            int size = arch.getWidth()* 2;
+            int size = arch.getWidth() * 2;
             select.animate().x(size).setDuration(100);
             category = "Drawings";
             filterData(category);
@@ -278,8 +262,8 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
             readPosts();
         }
     }
+
     private void filterData(String category) {
-        // Query to fetch posts where category equals the selected category
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("POSTS");
         Query query = postsRef.orderByChild("Category").equalTo(category);
 
@@ -305,6 +289,7 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
             }
         });
     }
+
     private void updateTextViewColors(TextView clickedTextView) {
         sculp.setTextColor(defaultTextColor);
         arch.setTextColor(defaultTextColor);
@@ -316,4 +301,5 @@ public class HomeFragment extends Fragment implements UserAdapter.FirstNameListe
 
         clickedTextView.setTextColor(Color.WHITE);
     }
+
 }

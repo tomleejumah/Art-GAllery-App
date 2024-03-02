@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +115,6 @@
                         android:layout_weight="1"
                         android:background="@drawable/back_select"
                         android:text="" />
-                    <!--                    android:background="@drawable/back_select"-->
 
                     <TextView
                         android:layout_width="match_parent"
@@ -224,14 +218,22 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_marginTop="40dp"
+                android:id="@+id/loadinglottie"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/loading_three"
+                app:lottie_loop="true" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rlPosts"
                 android:layout_width="match_parent"
-                android:layout_height="605dp"
-                android:visibility="visible" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-    </ScrollView>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.core.widget.NestedScrollView>

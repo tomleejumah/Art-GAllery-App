@@ -35,7 +35,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private  List<User> mUsers;
     private  Boolean isFragment;
     private FirebaseUser firebaseUser;
-    private FirstNameListener firstNameListener;
+    private UserNameListener firstNameListener;
 
     public UserAdapter(Context context, List<User> mUsers, Boolean isFragment) {
         this.context = context;
@@ -44,12 +44,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     }
 
-    public UserAdapter(FirstNameListener firstNameListener) {
+    public UserAdapter(UserNameListener firstNameListener) {
         this.firstNameListener = firstNameListener;
     }
 
-    public interface FirstNameListener {
-        void onFirstNameReceived(String firstName);
+    public interface UserNameListener {
+        void onUserNameReceived(String firstName);
     }
 
     @NonNull
@@ -85,7 +85,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 //                        }
 
                         if (firstNameListener != null) {
-                            firstNameListener.onFirstNameReceived(user.getUserName());
+                            firstNameListener.onUserNameReceived(user.getUserName());
                         }
                     }
 

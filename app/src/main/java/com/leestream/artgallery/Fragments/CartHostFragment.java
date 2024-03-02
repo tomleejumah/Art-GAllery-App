@@ -50,7 +50,7 @@ public class CartHostFragment extends Fragment {
         CartNotificationVPAdapter viewPagerAdapter = new CartNotificationVPAdapter(getChildFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPagerAdapter.addFragment(new CartFragment(), "Cart");
-        viewPagerAdapter.addFragment(new NotificationFragment(), "Notification");
+        viewPagerAdapter.addFragment(new NotificationFragment(), "Notifications");
         myViewPager.setAdapter(viewPagerAdapter);
         return view;
     }

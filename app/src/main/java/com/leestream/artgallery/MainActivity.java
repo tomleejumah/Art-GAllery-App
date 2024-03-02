@@ -3,6 +3,7 @@ package com.leestream.artgallery;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -32,7 +33,7 @@ import com.leestream.artgallery.Fragments.SearchFragment;
 
 import java.io.ByteArrayOutputStream;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 11;
     private static final int REQUEST_CODE = 10;
     private BottomNavigationView bottomNavigationView;
@@ -46,23 +47,21 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         FloatingActionButton myFab=findViewById(R.id.myFab);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userType = getSharedPreferences("UserType", MODE_PRIVATE).getString("UserType",null);
-//                assert userType != null;
-                if (userType != null){
-                    if (userType.equals("Client")){
-                        Toast.makeText(MainActivity.this, "To Post,you must be logged in as an Artist", Toast.LENGTH_LONG).show();
-                    }else {
-                        showMyDialog();
-                    }
-                }else {
-                    Toast.makeText(MainActivity.this, "To Post,you must be logged in as an Artist", Toast.LENGTH_LONG).show();
 
+        myFab.setOnClickListener(v -> {
+            String userType = getSharedPreferences("UserType", MODE_PRIVATE).getString("UserType",null);
+//                assert userType != null;
+            if (userType != null){
+                if (userType.equals("Client")){
+                    Toast.makeText(MainActivity.this, "To Post,you must be logged in as an Artist", Toast.LENGTH_LONG).show();
+                }else {
+                    showMyDialog();
                 }
+            }else {
+                Toast.makeText(MainActivity.this, "To Post,you must be logged in as an Artist", Toast.LENGTH_LONG).show();
 
             }
+
         });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -172,4 +171,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -47,15 +48,16 @@ public class CartFragment extends Fragment {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        MaterialToolbar materialToolbar = view.findViewById(R.id.toolbar2);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(materialToolbar);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("");
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        materialToolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-        });
+//        MaterialToolbar materialToolbar = view.findViewById(R.id.toolbar2);
+//        ((AppCompatActivity) requireActivity()).setSupportActionBar(materialToolbar);
+//        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("");
+//        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        materialToolbar.setNavigationOnClickListener(v -> {
+//            Intent intent = new Intent(requireContext(), MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            startActivity(intent);
+//        });
 
         myLottie = view.findViewById(R.id.myLottie);
         LLCart = view.findViewById(R.id.LLCart);
@@ -120,7 +122,7 @@ public class CartFragment extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(requireContext(), "Error while fetching Cart Items", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
