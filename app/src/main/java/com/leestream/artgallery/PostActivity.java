@@ -4,8 +4,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +37,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.leestream.artgallery.Fragments.LottieDialogFragment;
+import com.leestream.artgallery.Models.User;
 import com.leestream.artgallery.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -47,6 +48,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostActivity extends AppCompatActivity {
     private String imageUrl;
@@ -71,6 +74,7 @@ public class PostActivity extends AppCompatActivity {
         ImageView imgClose = findViewById(R.id.imgClose);
         ImageView imageView = findViewById(R.id.imgAdded);
         Button btnUpload = findViewById(R.id.btn_Login);
+        CircleImageView profileActivityPosts =findViewById(R.id.profileActivityPosts);
 
         spinner = findViewById(R.id.spinner1);
 
@@ -92,13 +96,31 @@ public class PostActivity extends AppCompatActivity {
             finish();
         });
 
+        FirebaseUser fUser= FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseDatabase.getInstance().getReference().child("USERS").child(fUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user =snapshot.getValue(User.class);
+                        if (user.getImageUrl().equals("default")){
+                            profileActivityPosts.setImageResource(R.mipmap.profile_foreground);
+                        }else if (user.getImageUrl().equals("")){
+                            profileActivityPosts.setImageResource(R.mipmap.profile_foreground);
+                        }else {
+                            Picasso.get().load(user.getImageUrl()).into(profileActivityPosts);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 selectedSpinnerItem = parent.getSelectedItem().toString();
-//                Toast.makeText(PostActivity.this, selectedItem, LENGTH_SHORT).show();
-//                Toast.makeText(PostActivity.this, "YOUR SELECTION IS : " + selectedItem, LENGTH_SHORT).show();
-//                Toast.makeText(PostActivity.this, "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                selectedSpinnerItem = parent.getSelectedItem().toString();
             }
 
             @Override

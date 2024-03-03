@@ -29,6 +29,9 @@
         android:theme="@style/Theme.ArtGallery"
         tools:targetApi="31">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPswd"
             android:exported="false" />
         <activity

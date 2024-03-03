@@ -26,6 +26,7 @@ import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ import com.leestream.artgallery.Adapters.PostsAdapter;
 import com.leestream.artgallery.Adapters.UserAdapter;
 import com.leestream.artgallery.MainActivity;
 import com.leestream.artgallery.Models.Posts;
+import com.leestream.artgallery.Models.User;
 import com.leestream.artgallery.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -44,6 +46,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class HomeFragment extends Fragment implements UserAdapter.UserNameListener, View.OnClickListener {
@@ -56,24 +60,22 @@ public class HomeFragment extends Fragment implements UserAdapter.UserNameListen
     private String name;
     private List<String> firebaseImageUrls = new ArrayList<>();
     private LottieDialogFragment lottieDialogFragment;
-    private TextView sculp, arch, lit, film, paint, music, all, select;
+    private TextView sculp, arch, lit, film, paint, music, all, select,txtUserN;
     private int defaultTextColor;
     private String category;
     private UserAdapter userAdapter;
     private MainActivity mainActivity;
     private static final String TAG = "HomeFragment";
-    private  TextView txtUserN;
     private LottieAnimationView loadinglottie;
+    private CircleImageView profileCircleImageView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-//        mAuth=FirebaseAuth.getInstance();
-        lottieDialogFragment = new LottieDialogFragment(requireContext());
-//        lottieDialogFragment.show();
          txtUserN = view.findViewById(R.id.txtUserN);
+        profileCircleImageView = view.findViewById(R.id.profileCircleImageView);
         loadinglottie = view.findViewById(R.id.loadinglottie);
 
         loadinglottie.setVisibility(View.VISIBLE);
@@ -87,26 +89,32 @@ public class HomeFragment extends Fragment implements UserAdapter.UserNameListen
         all = view.findViewById(R.id.all);
         select = view.findViewById(R.id.select);
 
-        sculp.setOnClickListener(this);
-        arch.setOnClickListener(this);
-        lit.setOnClickListener(this);
-        paint.setOnClickListener(this);
-        film.setOnClickListener(this);
-        music.setOnClickListener(this);
-        all.setOnClickListener(this);
+        FirebaseUser fUser= FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase.getInstance().getReference().child("USERS").child(fUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user =snapshot.getValue(User.class);
+                        if (user.getImageUrl().equals("default")){
+                            profileCircleImageView.setImageResource(R.mipmap.profile_foreground);
+                        }else if (user.getImageUrl().equals("")){
+                            profileCircleImageView.setImageResource(R.mipmap.profile_foreground);
+                        }else {
+                            Picasso.get().load(user.getImageUrl()).into(profileCircleImageView);
+                        }
+                        txtUserN.setText("Hello " + user.getUserName());
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-
-//        getImageUrl();
+                    }
+                });
 
         defaultTextColor = ContextCompat.getColor(requireContext(), android.R.color.black);
 
         imageSlider = view.findViewById(R.id.image_slider);
 
         ArrayList<SlideModel> slideModels = new ArrayList<>();
-
-
-//        List<String> firebaseImageUrls = new ArrayList<>();
 
         slideModels.add(new SlideModel(R.drawable.music_art, "Largest Online Art store", ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.africa_sketch, ScaleTypes.FIT));
@@ -138,6 +146,14 @@ public class HomeFragment extends Fragment implements UserAdapter.UserNameListen
         followingList = new ArrayList<>();
 
         checkFollowingUsers();
+
+        sculp.setOnClickListener(this);
+        arch.setOnClickListener(this);
+        lit.setOnClickListener(this);
+        paint.setOnClickListener(this);
+        film.setOnClickListener(this);
+        music.setOnClickListener(this);
+        all.setOnClickListener(this);
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override

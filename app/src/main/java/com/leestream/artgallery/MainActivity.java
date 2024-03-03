@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity  {
                 bitmap = (Bitmap) data.getExtras().get("data");
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
             Intent intent = new Intent(this, PostActivity.class);

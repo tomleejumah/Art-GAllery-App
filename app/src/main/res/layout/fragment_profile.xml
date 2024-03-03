@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="010dp"
+        android:padding="10dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_marginTop="5dp"
@@ -17,12 +17,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_centerInParent="true"
+                <Button
+                    android:textStyle="bold"
+                    android:textColor="#FF6D00"
+                    android:textSize="18sp"
+                    android:id="@+id/btnEdit"
+                    android:backgroundTint="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:text="Edit"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/fullNames"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:fontFamily="@font/signika_bold"
                     android:gravity="center_horizontal"
                     android:text="Kelvin Maina"
@@ -32,11 +42,12 @@
                 <Button
                     android:textStyle="bold"
                     android:textColor="#FF6D00"
+                    android:id="@+id/btnLogout"
                     android:textSize="18sp"
                     android:backgroundTint="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit"
+                    android:text="Logout"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
@@ -71,7 +82,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtEmail1"
+                android:id="@+id/txtAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="developer@appsnipp.com"
@@ -213,16 +224,22 @@
                     android:gravity="center"/>
             </LinearLayout>
         </FrameLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_marginTop="40dp"
+            android:id="@+id/loadinglottie1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/loading_three"
+            app:lottie_loop="true" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/RCviewPictures"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RCsavedPictures"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

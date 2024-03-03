@@ -1,9 +1,7 @@
 package com.leestream.artgallery.Adapters;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +29,6 @@ import com.leestream.artgallery.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -125,18 +121,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 FirebaseDatabase.getInstance().getReference().child("Cart").
                         child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
 
-                removeCart(posts.getPostID());
                 removeFromCart(posts.getPostID(), firebaseUser.getUid());
 
                 holder.ImgOrder.setTag("NoCart");
-
-//                FirebaseDatabase.getInstance().getReference().child("CartItems").child(firebaseUser.getUid()).
-//                        child(posts.getPostID()).removeValue().addOnCompleteListener(task -> {
-//                            if (task.isSuccessful()){
-//                                Toast.makeText(mContext, "Removed From Cart", Toast.LENGTH_SHORT).show();
-//                                holder.ImgOrder.setTag("NoCart");
-//                            }
-//                        });
 
             }
         });
@@ -145,7 +132,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             if (holder.likeBtn.getTag().equals("Like")){
                 FirebaseDatabase.getInstance().getReference().child("Likes").
                         child(posts.getPostID()).child(firebaseUser.getUid()).setValue(true);
+
                 addNotification(posts.getPostID(),firebaseUser.getUid(),"Liked your Post");
+
+                saveLikedPost(posts.getPostID(), posts.getUserName(), posts.getDescription(),
+                        posts.getPrice(), posts.getImageUrl(), posts.getPublisherID());
             }else {
                 FirebaseDatabase.getInstance().getReference().child("Likes").
                         child(posts.getPostID()).child(firebaseUser.getUid()).removeValue();
@@ -155,14 +146,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             if (holder.savesBtn.getTag().equals("Save")){
                 FirebaseDatabase.getInstance().getReference().child("Saves").
                         child(firebaseUser.getUid()).child(posts.getPostID()).setValue(true);
+
                 addNotification(posts.getPostID(),firebaseUser.getUid(),"Saved your Post");
+                savePost(posts.getPostID(), posts.getUserName(), posts.getDescription(),
+                        posts.getPrice(), posts.getImageUrl(), posts.getPublisherID());
 
                 Toast.makeText(mContext, "Post is Saved", Toast.LENGTH_SHORT).show();
             }else {
                 FirebaseDatabase.getInstance().getReference().child("Saves").
                         child(firebaseUser.getUid()).child(posts.getPostID()).removeValue();
-
-//                Toast.makeText(mContext, "Post Unsaved", Toast.LENGTH_SHORT).show();
             }
         });
         holder.profileImg.setOnClickListener(view -> {
@@ -192,6 +184,33 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
     }
 
+    private void saveLikedPost(String postID, String UserName, String desc
+            , String price, String imageUrl, String PublisherID) {
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("UserName",UserName);
+        map.put("text",desc);
+        map.put("postID",postID);
+        map.put("price",price);
+        map.put("imageUrl",imageUrl);
+        map.put("PublisherID",PublisherID);
+
+        FirebaseDatabase.getInstance().getReference().child("LIKED").
+                child(firebaseUser.getUid()).push().setValue(map);
+    }
+
+    private void savePost(String postID, String UserName, String desc
+            , String price, String imageUrl, String PublisherID) {
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("UserName",UserName);
+        map.put("postID",postID);
+        map.put("price",price);
+        map.put("imageUrl",imageUrl);
+        map.put("PublisherID",PublisherID);
+
+        FirebaseDatabase.getInstance().getReference().child("SAVED").
+                child(firebaseUser.getUid()).push().setValue(map);
+    }
+
     private void addToCartFragment(String postID, String UserName,String desc
             ,String price,String imageUrl,String PublisherID) {
         HashMap<String,Object> map=new HashMap<>();
@@ -205,11 +224,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         FirebaseDatabase.getInstance().getReference().child("CartItems").
                 child(firebaseUser.getUid()).push().setValue(map);
     }
-    private void removeFromCart(String postID,String PublisherID){
+    private void removeFromCart(String postId,String PublisherID){
         FirebaseDatabase.getInstance().getReference().child("CartItems").
-                child(PublisherID).child(postID).removeValue();
-    }
-    private void removeCart(String postId){
+                child(PublisherID).child(postId).removeValue();
+
         FirebaseDatabase.getInstance().getReference().child("CartItems").child(firebaseUser.getUid()).
                 child(postId).removeValue().addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
@@ -351,5 +369,4 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     }
                 });
     }
-
 }

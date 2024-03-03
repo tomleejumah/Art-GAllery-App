@@ -81,7 +81,7 @@ public class Register extends AppCompatActivity {
         TextInputEditText[] editTexts = {edtFirstName, edtLastname, edtEmail, edtPassword, edtPassword1,edtUserName};
         String email = Objects.requireNonNull(edtEmail.getText()).toString();
         String password = Objects.requireNonNull(edtPassword.getText()).toString();
-        String UserName = Objects.requireNonNull(edtUserName.getText()).toString();
+//        String UserName = Objects.requireNonNull(edtUserName.getText()).toString();
         boolean anyFieldEmpty = false;
         // Iterate over the EditText fields
         for (TextInputEditText editText : editTexts) {
@@ -142,6 +142,7 @@ public class Register extends AppCompatActivity {
             map.put("ID",id);
             map.put("imageUrl","default");
             map.put("Usertype",option);
+            map.put("Bio","");
 
             MyAsyncTask myAsyncTask = new MyAsyncTask(id, userName,option);
             myAsyncTask.execute();
@@ -150,7 +151,7 @@ public class Register extends AppCompatActivity {
                     addOnCompleteListener(task -> {
                         if (task.isSuccessful()){
                             Toast.makeText(Register.this, "Welcome to Art Gallery " +
-                                    "now set your profile", Toast.LENGTH_LONG).show();
+                                    "now set up your profile", Toast.LENGTH_LONG).show();
                             // Main Activity
                             Intent intent=new Intent(Register.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
