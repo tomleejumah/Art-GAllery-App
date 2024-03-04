@@ -170,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="14sp"
-                        android:text="Following" />
+                        android:text="Followers" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

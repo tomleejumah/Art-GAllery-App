@@ -35,21 +35,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private  List<User> mUsers;
     private  Boolean isFragment;
     private FirebaseUser firebaseUser;
-    private UserNameListener firstNameListener;
 
     public UserAdapter(Context context, List<User> mUsers, Boolean isFragment) {
         this.context = context;
         this.mUsers = mUsers;
         this.isFragment = isFragment;
 
-    }
-
-    public UserAdapter(UserNameListener firstNameListener) {
-        this.firstNameListener = firstNameListener;
-    }
-
-    public interface UserNameListener {
-        void onUserNameReceived(String firstName);
     }
 
     @NonNull
@@ -64,39 +55,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         User user=mUsers.get(position);
         holder.btnFollow.setVisibility(View.VISIBLE);
-        holder.edtFirstNameItem.setText(user.getFirstName());
-        holder.edtLastNameItem.setText(user.getLastName());
-
+        holder.edtFirstNameItem.setText(user.getUserName());
+        holder.edtLastNameItem.setText(user.getBio());
+        Picasso.get().load(user.getImageUrl()).placeholder(R.mipmap.profile_foreground).into(holder.profilePIc);
 
         String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        FirebaseDatabase.getInstance().getReference().child("USERS").child(publisher)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user=snapshot.getValue(User.class);
-
-//                        if (user.getImageUrl().equals("default")){
-//                            holder.profileImg.setImageResource(R.mipmap.profile_foreground);
-//                        }else if (user.getImageUrl().equals("")){
-//                            holder.profileImg.setImageResource(R.mipmap.profile_foreground);
-//                        }else {
-//                            Picasso.get().load(user.getImageUrl()).into(holder.profileImg);
-//                        }
-
-                        if (firstNameListener != null) {
-                            firstNameListener.onUserNameReceived(user.getUserName());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-        Picasso.get().load(user.getImageUrl()).placeholder(R.mipmap.profile_foreground)
-                .into(holder.profilePIc);
         isFollowed(user.getID(), holder.btnFollow);
 
 
@@ -133,20 +97,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFragment){
-                    context.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).edit()
-                            .putString("profileID", user.getID()).apply();
+        holder.itemView.setOnClickListener(view -> {
+            //todo if is followed or not
+            if (isFragment){
+                context.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).edit()
+                        .putString("profileID", user.getID()).apply();
 
-                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragment_Container,new ProfileFragment()).commit();
-                }else {
-                    Intent intent=new Intent(context, MainActivity.class);
-                    intent.putExtra("publisherID",user.getID());
-                    context.startActivity(intent);
-                }
+//                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().
+//                        replace(R.id.fragment_Container,new ProfileFragment()).commit();
+            }else {
+                Intent intent=new Intent(context, MainActivity.class);
+                intent.putExtra("publisherID",user.getID());
+                context.startActivity(intent);
             }
         });
     }

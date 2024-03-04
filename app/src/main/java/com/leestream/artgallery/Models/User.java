@@ -9,10 +9,12 @@ public class User {
     private String UserName;
     private String imageUrl;
 
+    private String  Usertype;
+
     public User() {
     }
 
-    public User(String bio, String email, String ID, String firstName, String lastName, String userName, String imageUrl) {
+    public User(String bio, String email, String ID, String firstName, String lastName, String userName, String imageUrl,String Usertype) {
         Bio = bio;
         Email = email;
         this.ID = ID;
@@ -20,6 +22,15 @@ public class User {
         LastName = lastName;
         UserName = userName;
         this.imageUrl = imageUrl;
+        this.Usertype= Usertype;
+    }
+
+    public String getUsertype() {
+        return Usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        Usertype = usertype;
     }
 
     public String getBio() {
@@ -77,4 +88,5 @@ public class User {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }

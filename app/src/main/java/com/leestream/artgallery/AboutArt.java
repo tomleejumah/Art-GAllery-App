@@ -210,32 +210,32 @@ public class AboutArt extends AppCompatActivity {
             String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
            String mail = txtCodeBottomSheet.getText().toString();
 
-           if (!isValidEmail(mail)){
-               Toast.makeText(AboutArt.this, "Enter A valid Mail", Toast.LENGTH_SHORT).show();
-           }else {
-
-               FirebaseDatabase.getInstance().getReference().child("USERS").child(publisher).
-                       addValueEventListener(new ValueEventListener() {
-                           @Override
-                           public void onDataChange(@NonNull DataSnapshot snapshot) {
-                               if (snapshot.exists()) {
-                                   String Email = snapshot.child("Email").getValue(String.class);
-                                   if (mail.equalsIgnoreCase(Email)){
-                        //todo  fragment for processing then successful
-                                       dialog.dismiss();
-                                   }else {
-                                       Toast.makeText(AboutArt.this, "Use your Registered Mail", Toast.LENGTH_SHORT).show();
-                                   }
-                               }
-
-                           }
-
-                           @Override
-                           public void onCancelled(@NonNull DatabaseError error) {
-
-                           }
-                       });
-           }
+//           if (!isValidEmail(mail)){
+//               Toast.makeText(AboutArt.this, "Enter A valid Mail", Toast.LENGTH_SHORT).show();
+//           }else {
+//
+//               FirebaseDatabase.getInstance().getReference().child("USERS").child(publisher).
+//                       addValueEventListener(new ValueEventListener() {
+//                           @Override
+//                           public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                               if (snapshot.exists()) {
+//                                   String Email = snapshot.child("Email").getValue(String.class);
+//                                   if (mail.equalsIgnoreCase(Email)){
+//                        //todo  fragment for processing then successful
+//                                       dialog.dismiss();
+//                                   }else {
+//                                       Toast.makeText(AboutArt.this, "Use your Registered Mail", Toast.LENGTH_SHORT).show();
+//                                   }
+//                               }
+//
+//                           }
+//
+//                           @Override
+//                           public void onCancelled(@NonNull DatabaseError error) {
+//
+//                           }
+//                       });
+//           }
 
 
         });

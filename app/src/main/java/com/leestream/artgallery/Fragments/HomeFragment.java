@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class HomeFragment extends Fragment implements UserAdapter.UserNameListener, View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private RecyclerView RcPosts;
     private PostsAdapter postAdapter;
     private List<Posts> posts;
@@ -139,7 +139,6 @@ public class HomeFragment extends Fragment implements UserAdapter.UserNameListen
         linearLayoutManager.setReverseLayout(true);
         RcPosts.setLayoutManager(linearLayoutManager);
         posts = new ArrayList<>();
-        userAdapter = new UserAdapter(this);
         postAdapter = new PostsAdapter(requireContext(), posts);
         RcPosts.setAdapter(postAdapter);
 
@@ -225,15 +224,6 @@ public class HomeFragment extends Fragment implements UserAdapter.UserNameListen
                     }
                 });
     }
-
-    @Override
-    public void onUserNameReceived(String firstName) {
-        name = firstName;
-        if (txtUserN != null) {
-            txtUserN.setText("Hello " + name + "!");
-        }
-    }
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sculp) {
@@ -317,5 +307,4 @@ public class HomeFragment extends Fragment implements UserAdapter.UserNameListen
 
         clickedTextView.setTextColor(Color.WHITE);
     }
-
 }

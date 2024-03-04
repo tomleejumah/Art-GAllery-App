@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,8 +54,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Cart cart = mCart.get(position);
         getUser( holder.txtUserName, cart.getPublisherID());
         getPostImg(holder.cartImg, cart.getPostID());
-        holder.txtTotal.setText(cart.getPrice());
+        holder.txtTotal.setText("Ksh: "+cart.getPrice());
         holder.txtDesc.setText(cart.getDescription());
+
+        ViewGroup.LayoutParams layoutParams = holder.myCARd.getLayoutParams();
+        layoutParams.height = calculateImageViewHeight(mContext);
+        holder.myCARd.setLayoutParams(layoutParams);
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, AboutArt.class);
@@ -96,6 +101,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 //        }
 
 
+    }
+    private int calculateImageViewHeight(Context context) {
+        // Calculate image height based on screen width or desired width
+        int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        // Adjust as needed, e.g., divide by number of columns in the grid
+        return screenWidth / 3; // assuming 3 columns
     }
 
     private void getPostImg(ImageView postImg, String postID) {
@@ -141,6 +152,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private CardView myCARd;
         private  TextView txtUserName,txtDesc,txtTotal,textView;
         private  ImageView cartImg;
         private TextView increaseButton,decreaseButton;
@@ -155,6 +167,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             increaseButton = itemView.findViewById(R.id.btnIncrease);
             decreaseButton = itemView.findViewById(R.id.btnDecrease);
              textView = itemView.findViewById(R.id.txtValue);
+            myCARd = itemView.findViewById(R.id.myCard);
         }
 
     }

@@ -26,10 +26,17 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.leestream.artgallery.Fragments.CartHostFragment;
 import com.leestream.artgallery.Fragments.HomeFragment;
 import com.leestream.artgallery.Fragments.ProfileFragment;
 import com.leestream.artgallery.Fragments.SearchFragment;
+import com.leestream.artgallery.Models.User;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity  {
     private BottomNavigationView bottomNavigationView;
     private Fragment fragment;
     private Bitmap bitmap;
+    private String userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +56,24 @@ public class MainActivity extends AppCompatActivity  {
 
         FloatingActionButton myFab=findViewById(R.id.myFab);
 
+        String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseDatabase.getInstance().getReference().child("USERS").child(publisher).
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                         userType = user.getUsertype();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
         myFab.setOnClickListener(v -> {
-            String userType = getSharedPreferences("UserType", MODE_PRIVATE).getString("UserType",null);
-//                assert userType != null;
+//            String userType = getSharedPreferences("UserType", MODE_PRIVATE).getString("UserType",null);
+
             if (userType != null){
                 if (userType.equals("Client")){
                     Toast.makeText(MainActivity.this, "To Post,you must be logged in as an Artist", Toast.LENGTH_LONG).show();

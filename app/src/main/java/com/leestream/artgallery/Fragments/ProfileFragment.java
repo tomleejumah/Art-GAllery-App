@@ -93,27 +93,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         profileAdapter = new ProfileAdapter(requireContext(), profilePost);
         RCviewPictures.setAdapter(profileAdapter);
 
-        FirebaseUser fUser= FirebaseAuth.getInstance().getCurrentUser();
-
-        FirebaseDatabase.getInstance().getReference().child("USERS").child(fUser.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user =snapshot.getValue(User.class);
-                        if (user.getImageUrl().equals("default")){
-                            profileFragmentImg.setImageResource(R.mipmap.profile_foreground);
-                        }else if (user.getImageUrl().equals("")){
-                            profileFragmentImg.setImageResource(R.mipmap.profile_foreground);
-                        }else {
-                            Picasso.get().load(user.getImageUrl()).into(profileFragmentImg);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
         def = item2.getTextColors();
         item1.setOnClickListener(this);
         item2.setOnClickListener(this);
@@ -157,12 +136,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getUserInfo() {
-        String UID = getContext().getSharedPreferences("UID", Context.MODE_PRIVATE).getString("myUID", null);
-        if (UID.isEmpty()) {
-            UID = String.valueOf(FirebaseAuth.getInstance().getCurrentUser());
-        }
+//        String UID = getContext().getSharedPreferences("UID", Context.MODE_PRIVATE).getString("myUID", null);
+//        if (UID.isEmpty()) {
+//            UID = String.valueOf(FirebaseAuth.getInstance().getCurrentUser());
+//        }
+        String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        FirebaseDatabase.getInstance().getReference().child("USERS").child(UID).
+        FirebaseDatabase.getInstance().getReference().child("USERS").child(publisher).
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -244,9 +224,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void readMyPost() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("POSTS");
-        Query query = postsRef.orderByChild("PublisherID").equalTo(String.valueOf(firebaseUser));
+        Query query = postsRef.orderByChild("PublisherID").equalTo(publisher);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
