@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.leestream.artgallery.Fragments.LottieDialogFragment;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -32,6 +33,7 @@ public class Register extends AppCompatActivity {
     private DatabaseReference mRootRef;
     private RadioGroup radioGroup;
     private  String option;
+    private LottieDialogFragment lottieDialogFragment;
     private TextInputEditText edtFirstName,edtLastname,edtEmail,edtPassword,edtPassword1,edtUserName;
 
     @Override
@@ -42,6 +44,8 @@ public class Register extends AppCompatActivity {
 
         mAuth= FirebaseAuth.getInstance();
         mRootRef= FirebaseDatabase.getInstance().getReference();
+
+        lottieDialogFragment= new LottieDialogFragment(this);
 
         edtFirstName=findViewById(R.id.edtFirstName);
         radioGroup = findViewById(R.id.cardContainer2);
@@ -73,6 +77,7 @@ public class Register extends AppCompatActivity {
             startActivity(intent);
         });
         findViewById(R.id.btnRegister).setOnClickListener(view -> {
+            lottieDialogFragment.show();
             checkIfUtilsEmpty();
         });
     }
@@ -155,6 +160,7 @@ public class Register extends AppCompatActivity {
                             // Main Activity
                             Intent intent=new Intent(Register.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            lottieDialogFragment.dismiss();
                             startActivity(intent);
                             finish();
                         }
@@ -164,9 +170,9 @@ public class Register extends AppCompatActivity {
 
     }
     private class MyAsyncTask extends AsyncTask<String, Void, String> {
-        private String id;
-        private String userName;
-        private String userType;
+        private final String id;
+        private final String userName;
+        private final String userType;
         public MyAsyncTask(String id, String userName,String userType) {
             this.id = id;
             this.userName = userName;

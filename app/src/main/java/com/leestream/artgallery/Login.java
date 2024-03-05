@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.leestream.artgallery.Fragments.LottieDialogFragment;
 
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ public class Login extends AppCompatActivity {
     private ImageView imageView;
     private TextView textView;
     private TextInputEditText edtMail, edtPwsd;
+    private LottieDialogFragment lottieDialogFragment;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class Login extends AppCompatActivity {
 
         edtMail=findViewById(R.id.edtMail);
         edtPwsd=findViewById(R.id.edtPassword);
+        lottieDialogFragment= new LottieDialogFragment(this);
 //        textView=findViewById(R.id.textView);
 //        imageView=findViewById(R.id.imageView);
 
@@ -50,6 +53,7 @@ public class Login extends AppCompatActivity {
 
         findViewById(R.id.btnLogin).setOnClickListener(v->{
             if (NetworkUtils.isNetworkConnected(this)) {
+                lottieDialogFragment.show();
                 checkIfEmpty();
             }else {
                 Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -120,6 +124,7 @@ public class Login extends AppCompatActivity {
                         Intent intent=new Intent(Login.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                        intent.putExtra("UserLogin","UserLogin");
+                        lottieDialogFragment.dismiss();
                         startActivity(intent);
                         finish();
                     } else {

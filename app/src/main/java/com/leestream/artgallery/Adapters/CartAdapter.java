@@ -152,10 +152,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView myCARd;
-        private  TextView txtUserName,txtDesc,txtTotal,textView;
-        private  ImageView cartImg;
-        private TextView increaseButton,decreaseButton;
+        private final CardView myCARd;
+        private final TextView txtUserName;
+        private final TextView txtDesc;
+        private final TextView txtTotal;
+        private final TextView textView;
+        private final ImageView cartImg;
+        private final TextView increaseButton;
+        private final TextView decreaseButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -21,10 +21,10 @@
             android:elevation="0dp"
             android:background="@android:color/transparent" />
         <com.google.android.material.bottomappbar.BottomAppBar
+            android:background="@drawable/bottom_app_bar_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/botoom_aPP"
-            android:backgroundTint="@color/white"
             android:layout_gravity="bottom">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView

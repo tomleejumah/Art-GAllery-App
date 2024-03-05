@@ -46,11 +46,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private TextView item1, item2, fullNames, txtUserName1, txtAbout, select;
     private RecyclerView RCviewPictures;
     private ImageView profileFragmentImg;
-    private String firstName, lastName, userName, userType,bio;
+    private String firstName, lastName, userName, userType, bio;
     private boolean isArtist = false;
     private ProfileAdapter profileAdapter;
-    private List<Posts> profilePost = new ArrayList<>();
+    private final List<Posts> profilePost = new ArrayList<>();
     private LottieAnimationView loadinglottie;
+    private String publisher;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,21 +70,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         loadinglottie = view.findViewById(R.id.loadinglottie1);
 
         loadinglottie.setVisibility(View.VISIBLE);
+         publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        userType = getContext().getSharedPreferences("UserType", Context.MODE_PRIVATE).getString("UserType", null);
+//        userType = getContext().getSharedPreferences("UserType", Context.MODE_PRIVATE).getString("UserType", null);
 
         getUserInfo();
-
-        if (userType.equals("Artist")) {
-            item1.setText("MyPosts");
-            item2.setText("Saved");
-            isArtist = true;
-
-        } else {
-            item1.setText("Liked");
-            item2.setText("Saved");
-            isArtist = false;
-        }
+//        readSaved();
 
         RCviewPictures.hasFixedSize();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -122,15 +114,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             item1.setTextColor(Color.WHITE);
             item2.setTextColor(def);
             if (isArtist) {
+                // Clear the profilePost list before fetching new data
+                profilePost.clear();
+                profileAdapter.notifyDataSetChanged();
                 readMyPost();
             } else {
-                readLiked();
+                // Clear the profilePost list before fetching new data
+                profilePost.clear();
+                profileAdapter.notifyDataSetChanged();
+                readLiked(); // Read liked posts for non-artist users
             }
+
         } else if (v.getId() == R.id.item2) {
             item1.setTextColor(def);
             item2.setTextColor(Color.WHITE);
             int size = item2.getWidth();
             select.animate().x(size).setDuration(100);
+            profilePost.clear();
+            profileAdapter.notifyDataSetChanged();
             readSaved();
         }
     }
@@ -140,7 +141,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 //        if (UID.isEmpty()) {
 //            UID = String.valueOf(FirebaseAuth.getInstance().getCurrentUser());
 //        }
-        String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseDatabase.getInstance().getReference().child("USERS").child(publisher).
                 addValueEventListener(new ValueEventListener() {
@@ -155,6 +155,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                             Picasso.get().load(user.getImageUrl()).into(profileFragmentImg);
                         }
 
+                        userType = user.getUsertype();
+                        if (userType != null) {
+                            if (userType.equals("Artist")) {
+                                item1.setText("MyPosts");
+                                item2.setText("Saved");
+                                isArtist = true;
+                                readMyPost();
+
+                            } else {
+                                item1.setText("Liked");
+                                item2.setText("Saved");
+                                isArtist = false;
+                                readLiked();
+                            }
+                        }
                         firstName = user.getFirstName();
                         lastName = user.getLastName();
                         userName = user.getUserName();
@@ -164,6 +179,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         txtUserName1.setText("@" + userName);
                         txtAbout.setText(bio);
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -173,7 +189,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void readSaved() {
         FirebaseDatabase.getInstance().getReference().child("SAVED").
-                child(FirebaseAuth.getInstance().getUid()).
+                child(publisher).
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -199,7 +215,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void readLiked() {
         FirebaseDatabase.getInstance().getReference().child("LIKED").
-                child(FirebaseAuth.getInstance().getUid()).
+                child(publisher).
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -224,7 +240,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void readMyPost() {
-        String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("POSTS");
         Query query = postsRef.orderByChild("PublisherID").equalTo(publisher);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

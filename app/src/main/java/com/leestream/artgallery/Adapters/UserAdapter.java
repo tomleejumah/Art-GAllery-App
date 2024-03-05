@@ -23,6 +23,7 @@ import com.leestream.artgallery.Fragments.ProfileFragment;
 import com.leestream.artgallery.MainActivity;
 import com.leestream.artgallery.Models.User;
 import com.leestream.artgallery.R;
+import com.leestream.artgallery.UserPostActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -31,9 +32,9 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private  Context context;
-    private  List<User> mUsers;
-    private  Boolean isFragment;
+    private final Context context;
+    private final List<User> mUsers;
+    private final Boolean isFragment;
     private FirebaseUser firebaseUser;
 
     public UserAdapter(Context context, List<User> mUsers, Boolean isFragment) {
@@ -46,25 +47,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.user_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.user_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        User user=mUsers.get(position);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        User user = mUsers.get(position);
         holder.btnFollow.setVisibility(View.VISIBLE);
         holder.edtFirstNameItem.setText(user.getUserName());
         holder.edtLastNameItem.setText(user.getBio());
         Picasso.get().load(user.getImageUrl()).placeholder(R.mipmap.profile_foreground).into(holder.profilePIc);
 
-        String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         isFollowed(user.getID(), holder.btnFollow);
 
 
-        if (user.getID().equals(firebaseUser.getUid())){
+        if (user.getID().equals(firebaseUser.getUid())) {
             FirebaseDatabase.getInstance().getReference().child("follow")
                     .child(firebaseUser.getUid())  // Get the current user's UID
                     .child("following")
@@ -75,7 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.btnFollow.getText().equals("Follow")){
+                if (holder.btnFollow.getText().equals("Follow")) {
                     FirebaseDatabase.getInstance().getReference().child("follow").
                             child(firebaseUser.getUid()).child("following").
                             child(user.getID()).setValue(true);
@@ -83,9 +84,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     FirebaseDatabase.getInstance().getReference().child("follow").child(user.getID())
                             .child("followers").child(firebaseUser.getUid())
                             .setValue(true);
-                    addNotif(user.getID());
 
-                }else {
+                    addNotification(firebaseUser.getUid(), user.getID(), "Started Following you");
+
+                } else {
                     FirebaseDatabase.getInstance().getReference().child("follow").
                             child(firebaseUser.getUid()).child("following").
                             child(user.getID()).removeValue();
@@ -98,41 +100,37 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
         });
         holder.itemView.setOnClickListener(view -> {
-            //todo if is followed or not
-            if (isFragment){
-                context.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).edit()
-                        .putString("profileID", user.getID()).apply();
 
-//                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().
-//                        replace(R.id.fragment_Container,new ProfileFragment()).commit();
-            }else {
-                Intent intent=new Intent(context, MainActivity.class);
-                intent.putExtra("publisherID",user.getID());
-                context.startActivity(intent);
-            }
+            Intent intent = new Intent(context, UserPostActivity.class);
+            context.getSharedPreferences("USER", Context.MODE_PRIVATE).edit().
+                    putString("userID", user.getID()).apply();
+            context.startActivity(intent);
+
         });
     }
 
-    private void addNotif(String id) {
-        HashMap<String,Object> map=new HashMap<>();
-        map.put("userID",id);
-        map.put("text"," Started following you ");
-        map.put("postID","");
-        map.put("isPost",false);
 
-        FirebaseDatabase.getInstance().getReference().child("Notification").
-                child(firebaseUser.getUid()).push().setValue(map);
+    private void addNotification(String publisher, String text, String postPublisher) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userID", publisher);
+        map.put("text", text);
+
+        if (!postPublisher.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            FirebaseDatabase.getInstance().getReference().child("Notification").
+                    child(postPublisher).push().setValue(map);
+        }
+
     }
 
     private void isFollowed(String id, Button btnFollow) {
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference()
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("follow").child(firebaseUser.getUid()).child("following");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(id).exists()){
+                if (snapshot.child(id).exists()) {
                     btnFollow.setText("Following");
-                }else {
+                } else {
                     btnFollow.setText("Follow");
                 }
 
@@ -150,16 +148,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return mUsers.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-    public CircleImageView profilePIc;
-    public TextView edtFirstNameItem,edtLastNameItem;
-    public Button btnFollow;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public CircleImageView profilePIc;
+        public TextView edtFirstNameItem, edtLastNameItem;
+        public Button btnFollow;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            profilePIc=itemView.findViewById(R.id.profilePIc);
-            edtFirstNameItem=itemView.findViewById(R.id.edtFirstNameItem);
-            edtLastNameItem=itemView.findViewById(R.id.edtLastNameItem);
-            btnFollow=itemView.findViewById(R.id.btnFollow);
+            profilePIc = itemView.findViewById(R.id.profilePIc);
+            edtFirstNameItem = itemView.findViewById(R.id.edtFirstNameItem);
+            edtLastNameItem = itemView.findViewById(R.id.edtLastNameItem);
+            btnFollow = itemView.findViewById(R.id.btnFollow);
         }
     }
 }

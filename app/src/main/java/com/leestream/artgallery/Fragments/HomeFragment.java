@@ -56,10 +56,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private List<Posts> posts;
     private List<String> followingList;
     private ImageSlider imageSlider;
-    private ArrayList<SlideModel> slideModels = new ArrayList<>();
-    private String name;
-    private List<String> firebaseImageUrls = new ArrayList<>();
-    private LottieDialogFragment lottieDialogFragment;
+    private final ArrayList<SlideModel> slideModels = new ArrayList<>();
+    private final List<String> firebaseImageUrls = new ArrayList<>();
     private TextView sculp, arch, lit, film, paint, music, all, select,txtUserN;
     private int defaultTextColor;
     private String category;

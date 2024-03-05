@@ -1,21 +1,36 @@
 package com.leestream.artgallery;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -29,29 +44,38 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.leestream.artgallery.Fragments.LottieDialogFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class AboutArt extends AppCompatActivity {
     private  int chosenValue;
     private int price;
-    private String selectedSize;
+    private String selectedSize,postPublisher;
     private String postID;
     private Context context;
+    private LottieDialogFragment lottieDialogFragment;
+    private PendingIntent pendingIntent;
+    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.myColor));
-        }
-        //todo work on price
         setContentView(R.layout.activity_about_art);
+
+        context = this;
 
         postID=getSharedPreferences("PREF", Context.MODE_PRIVATE).getString("postID","none");
 
+        notificationManager = NotificationManagerCompat.from(this);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("fragmentToLoad", MainActivity.class.getSimpleName());
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        lottieDialogFragment = new LottieDialogFragment(this);
         findViewById(R.id.fabdone).setOnClickListener(v -> {
             startActivity(new Intent(AboutArt.this, MainActivity.class));
             finish();
@@ -77,7 +101,7 @@ public class AboutArt extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            String publisher = snapshot.child("PublisherID").getValue(String.class);
+                             postPublisher = snapshot.child("PublisherID").getValue(String.class);
                             String description = snapshot.child("description").getValue(String.class);
                             String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                             String priceString = snapshot.child("price").getValue(String.class);
@@ -128,8 +152,11 @@ public class AboutArt extends AppCompatActivity {
         TextView textView = findViewById(R.id.txtValue);
          chosenValue = Integer.parseInt(textView.getText().toString());
 
-        showMyDialog();
-//todo use it on make order
+         if (chosenValue == 0){
+             Toast.makeText(this, "Select at-least one Item", Toast.LENGTH_SHORT).show();
+         }else {
+             showMyDialog();
+         }
     }
     private void showMyDialog() {
         final Dialog dialog = new Dialog(this);
@@ -139,6 +166,9 @@ public class AboutArt extends AppCompatActivity {
         TextView txtTTprice = dialog.findViewById(R.id.txtTTprice);
         RelativeLayout cardBuy = dialog.findViewById(R.id.cardBuy);
         EditText txtCodeBottomSheet = dialog.findViewById(R.id.txtCodeBottomSheet);
+        EditText txtContactBottomSheet = dialog.findViewById(R.id.txtContactBottomSheet);
+        EditText txtAdressBottomSheet = dialog.findViewById(R.id.txtAdressBottomSheet);
+
         Spinner spinnerRegions = dialog.findViewById(R.id.spinnerRegions);
         Spinner spinnerTowns = dialog.findViewById(R.id.spinnerTowns);
 
@@ -208,7 +238,36 @@ public class AboutArt extends AppCompatActivity {
 
         cardBuy.setOnClickListener(v -> {
             String  publisher = FirebaseAuth.getInstance().getCurrentUser().getUid();
-           String mail = txtCodeBottomSheet.getText().toString();
+           String code = txtCodeBottomSheet.getText().toString();
+            String address = txtAdressBottomSheet.getText().toString();
+            String contact = txtContactBottomSheet.getText().toString();
+
+
+            if (TextUtils.isEmpty(code) || TextUtils.isEmpty(address) || TextUtils.isEmpty(contact)) {
+                if (TextUtils.isEmpty(code)) {
+                    Toast.makeText(context, "Please enter code", Toast.LENGTH_SHORT).show();
+                }
+                if (TextUtils.isEmpty(address)) {
+                    Toast.makeText(context, "Please enter address", Toast.LENGTH_SHORT).show();
+                }
+                if (TextUtils.isEmpty(contact)) {
+                    Toast.makeText(context, "Please enter contact", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                lottieDialogFragment.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lottieDialogFragment.dismiss();
+                        showSuccessDialog();
+                        addNotificationForSeller(postID,postPublisher,"Has bought your Art");
+                        addNotificationForBuyer(postID,publisher,"You have successfully bought the art");
+                        AppLaunchNotification();
+                        dialog.dismiss();
+                    }
+                },3000);
+
+            }
 
 //           if (!isValidEmail(mail)){
 //               Toast.makeText(AboutArt.this, "Enter A valid Mail", Toast.LENGTH_SHORT).show();
@@ -237,7 +296,6 @@ public class AboutArt extends AppCompatActivity {
 //                       });
 //           }
 
-
         });
 
         dialog.show();
@@ -247,6 +305,85 @@ public class AboutArt extends AppCompatActivity {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
+
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 333;
+    void AppLaunchNotification() {
+        Bitmap icon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.notif_large);
+        String message = "You have Successfully Purchased the art.It will be delivered soon";
+//        String name = getSharedPreferences("MyPref", Context.MODE_PRIVATE).getString("FirstName", null);
+        Notification notification = new NotificationCompat.Builder(this
+                , "channel1")
+                .setSmallIcon(R.drawable.no_notif)
+                .setLargeIcon(icon)
+                .setContentTitle("Purchase Complete!")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setAutoCancel(true)
+                .setTimeoutAfter(18000000)
+                .setContentIntent(pendingIntent)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                                Manifest.permission.POST_NOTIFICATIONS},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+            } else {
+                notificationManager.notify(1, notification);
+            }
+        } else {
+            notificationManager.notify(1, notification);
+        }
+    }
+
+    private void addNotificationForBuyer(String postID, String publisher,String text) {
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("userID",publisher);
+        map.put("text",text);
+        map.put("postID",postID);
+
+        FirebaseDatabase.getInstance().getReference().child("Notification").
+                child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().setValue(map);
+
+    }
+    private void addNotificationForSeller(String postID, String publisher,String text){
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("userID",publisher);
+        map.put("text",text);
+        map.put("postID",postID);
+
+        FirebaseDatabase.getInstance().getReference().child("Notification").
+                child(publisher).push().setValue(map);
+    }
+
+    private void showSuccessDialog() {
+        ConstraintLayout successContraintLayout = findViewById(R.id.succesLayout);
+        View view = LayoutInflater.from(AboutArt.this).inflate(R.layout.succes_dialog,successContraintLayout);
+        Button btnSucces = view.findViewById(R.id.successbtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AboutArt.this);
+        builder.setView(view);
+        final  AlertDialog alertDialog = builder.create();
+
+        btnSucces.findViewById(R.id.successbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+                Toast.makeText(AboutArt.this, "Done", Toast.LENGTH_SHORT).show();
+            }
+        });
+        if (alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
+        alertDialog.setCanceledOnTouchOutside(false);
+    }
+
     public static boolean isValidEmail(String email) {
         // email validation logic
         return Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)" +

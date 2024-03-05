@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="60dp"
-        android:layout_height="10dp"
+        android:layout_height="7dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_corners"
@@ -34,6 +34,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+
         <TextView
             android:textColor="@color/myColor"
             android:id="@+id/txtTTprice"
@@ -46,6 +47,9 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
     <TextView
         android:textColor="@color/myColor"
@@ -98,24 +102,34 @@
             android:text="PAYBILL : 999666"
             android:textSize="22sp"
             android:textColor="#FF6D00" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
         <EditText
+            android:gravity="center"
             android:id="@+id/txtCodeBottomSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Paste the Mpesa code"
             android:textColor="#FF6D00" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
         <EditText
-            android:id="@+id/txtFirstNameBottomSheet"
+            android:id="@+id/txtAdressBottomSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Enter your first name"
+            android:hint="Enter Home Adress"
             android:textColor="#FF6D00" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
         <EditText
-            android:id="@+id/txtLaststNameBottomSheet"
+            android:id="@+id/txtContactBottomSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Enter your last name"
+            android:hint="Enter Contact Phone no"
             android:textColor="#FF6D00" />
     </LinearLayout>
 

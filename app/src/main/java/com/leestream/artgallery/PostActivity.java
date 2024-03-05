@@ -193,6 +193,10 @@ public class PostActivity extends AppCompatActivity {
             }).addOnCompleteListener(task -> {
                 Uri downloadUri = task.getResult();
                 imageUrl = downloadUri.toString();
+
+                String priceString = txtSetPrice.getText().toString();
+                String cleanPriceString = removeNonNumeric(priceString);
+
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("POSTS");
                 String postID = ref.push().getKey();
                 HashMap<String, Object> map = new HashMap<>();
@@ -200,9 +204,8 @@ public class PostActivity extends AppCompatActivity {
                 map.put("postID", postID);
                 map.put("imageUrl", imageUrl);
                 map.put("description", txtDescription.getText().toString());
-                map.put("price", txtSetPrice.getText().toString());
+                map.put("price", cleanPriceString);
                 map.put("Category",selectedSpinnerItem);
-//                map.put("UserName",UserName);
 
                 ref.child(postID).setValue(map);
             }).addOnFailureListener(e -> {
@@ -222,6 +225,12 @@ public class PostActivity extends AppCompatActivity {
 
         }
     }
+    private String removeNonNumeric(String input) {
+        // Remove any non-numeric characters from the input string
+        return input.replaceAll("[^\\d]", "");
+    }
+
+
 
     private String getFileExtension(Object fileObject) {
         if (fileObject == null) {

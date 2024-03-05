@@ -1,6 +1,7 @@
 package com.leestream.artgallery.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.leestream.artgallery.AboutArt;
+import com.leestream.artgallery.MainActivity;
 import com.leestream.artgallery.Models.Posts;
 import com.leestream.artgallery.Models.User;
+import com.leestream.artgallery.PostActivity;
 import com.leestream.artgallery.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
-    private Context context;
-    private  List<Posts> mPosts;
+    private final Context context;
+    private final List<Posts> mPosts;
 
     public ProfileAdapter(Context context, List<Posts> mPosts) {
         this.context = context;
@@ -37,6 +41,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Posts posts= mPosts.get(position);
         Picasso.get().load(posts.getImageUrl()).into(holder.imageView);
+
+        holder.imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, AboutArt.class);
+            context.getSharedPreferences("PREF",Context.MODE_PRIVATE).edit().
+                    putString("postID", posts.getPostID()).apply();
+            context.startActivity(intent);
+
+        });
 
         ViewGroup.LayoutParams layoutParams = holder.myCARd.getLayoutParams();
         layoutParams.height = calculateImageViewHeight(context);
@@ -57,8 +69,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private CardView myCARd;
+        private final ImageView imageView;
+        private final CardView myCARd;
 
 
         public ViewHolder(View itemView) {

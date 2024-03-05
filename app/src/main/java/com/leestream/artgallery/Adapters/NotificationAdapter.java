@@ -1,6 +1,7 @@
 package com.leestream.artgallery.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder>{
     private final List<Notification>mNotifications;
+    private static final String TAG = "NotificationAdapter";
     private final Context mContext;
 
     public NotificationAdapter(List<Notification> mNotifications, Context mContext) {
@@ -46,10 +48,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification=mNotifications.get(position);
 
         getUser(holder.imageProfile,holder.txtUserName,notification.getUserID());
-        holder.txtComment.setText(notification.getText());
 
-            holder.postImg.setVisibility(View.VISIBLE);
-                getPostImg(holder.postImg,notification.getPostID());
+        holder.txtComment.setText(notification.getText());
+        holder.postImg.setVisibility(View.VISIBLE);
+
+        getPostImg(holder.postImg,notification.getPostID());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,10 +79,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Posts posts=snapshot.getValue(Posts.class);
-                Picasso.get().load(posts.getImageUrl()).placeholder(R.mipmap.profile_foreground).into(postImg);
+                Posts posts = snapshot.getValue(Posts.class);
+                if (posts != null && posts.getImageUrl() != null) {
+                    Picasso.get().load(posts.getImageUrl()).placeholder(R.mipmap.profile_foreground).into(postImg);
+                } else {
+                    // Handle the case when Posts object or its imageUrl is null
+                    Log.e(TAG, "Posts object or its imageUrl is null");
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

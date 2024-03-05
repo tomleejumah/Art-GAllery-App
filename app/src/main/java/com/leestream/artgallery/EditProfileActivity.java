@@ -58,7 +58,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private String imageUrl;
     private TextInputEditText edtFN, edtLN, edtUserName, edtBio;
     private LottieDialogFragment lottieDialogFragment;
-    private HashMap<String,Object> map=new HashMap<>();
+    private final HashMap<String,Object> map=new HashMap<>();
     private StorageTask uploadTask;
     private String myUrl;
     @Override
