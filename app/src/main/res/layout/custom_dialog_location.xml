@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="10dp"
+    app:cardCornerRadius="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:paddingStart="34dp"
+            android:paddingEnd="34dp"
+            android:id="@+id/txtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONFIRM PURCHASE"
+            android:fontFamily="@font/signika_bold"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:id="@+id/txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Art Will be delivered at: "
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/txtView"
+            app:layout_constraintStart_toStartOf="@+id/txtView"
+            app:layout_constraintTop_toBottomOf="@+id/txtView"/>
+
+        <LinearLayout
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtLocation">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:padding="12dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/btnCancel"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Confirm"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/black"
+                android:backgroundTint="@color/black"
+                android:padding="12dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/btnConfirm"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

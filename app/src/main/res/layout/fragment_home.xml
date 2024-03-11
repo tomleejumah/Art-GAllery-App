@@ -37,7 +37,7 @@
                             android:fontFamily="@font/gotham"
                             android:maxLines="2"
                             android:text="Hello 🖐"
-                            android:textSize="32sp"
+                            android:textSize="28sp"
                             android:visibility="visible" />
 
                         <View
@@ -64,7 +64,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginBottom="20dp"
                 android:minHeight="150dp"
                 android:padding="10dp"
@@ -232,7 +232,8 @@
                 android:id="@+id/rlPosts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:paddingBottom="50dp"/>
 
         </LinearLayout>
 

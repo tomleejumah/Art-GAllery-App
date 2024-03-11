@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,17 +17,18 @@
             android:layout_height="match_parent"
             android:id="@+id/fragment_Container"
             app:labelVisibilityMode="unlabeled"
-            android:layout_above="@+id/parent"
+            android:layout_above="@+id/botoom_aPP"
             android:elevation="0dp"
             android:background="@android:color/transparent" />
-        <com.google.android.material.bottomappbar.BottomAppBar
+    <com.google.android.material.appbar.AppBarLayout
             android:background="@drawable/bottom_app_bar_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/botoom_aPP"
-            android:layout_gravity="bottom">
+            android:layout_alignParentBottom="true"
+            android:id="@+id/botoom_aPP">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
+
                 app:labelVisibilityMode="unlabeled"
                 app:hideOnScroll="true"
                 app:itemIconSize="50dp"
@@ -39,7 +40,7 @@
                 android:background="@android:color/transparent"
                 app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
                 app:elevation="0dp"/>
-        </com.google.android.material.bottomappbar.BottomAppBar>
+        </com.google.android.material.appbar.AppBarLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,9 +53,10 @@
             app:fabCradleVerticalOffset="10dp"
             app:fabCradleRoundedCornerRadius="60dp"
             android:backgroundTint="#FF6D00"
-            android:layout_gravity="center|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:contentDescription="@string/todo" />
 <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

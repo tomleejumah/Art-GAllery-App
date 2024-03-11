@@ -36,7 +36,7 @@
                     android:fontFamily="@font/signika_bold"
                     android:gravity="center_horizontal"
                     android:text="Kelvin Maina"
-                    android:textSize="28sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <Button
@@ -78,16 +78,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="\@User_Name"
-                android:textSize="28dp"
+                android:textSize="26dp"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10dp"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
                 android:id="@+id/txtAbout"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="developer@appsnipp.com"
+                android:text="About............."
                 android:textSize="14sp"
-                android:paddingBottom="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
 

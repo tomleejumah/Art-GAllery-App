@@ -31,6 +31,7 @@ private Button btn_register,btn_Login;
             btn_Login.setVisibility(View.GONE);
 
             new Handler().postDelayed(() -> {
+//                startActivity(new Intent(SplashScreen.this, MapsActivity.class));
                 startActivity(new Intent(SplashScreen.this, MainActivity.class));
                     finish();
             },3000);
